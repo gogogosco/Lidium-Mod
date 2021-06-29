@@ -1,0 +1,53 @@
+# Please keep formatting consistent 
+
+
+SO:
+
+Chat Color address -> 00A483D7
+Server Message XCord-> 008B2E7E ( -780~780 , change to push FFFFFCF4 for (0,0) ) *Default -512 invsig
+SetScreenResolution(800x600) address -> 00C0F629
+
+
+MiLin:
+
+CWvsContext::GetInstance - 01002560
+CWvsContext::SetScreenResolution - 00C0F5A0
+CWvsApp::WindowProc - 00C0E240
+get_screen_width - 00B88E50
+CInputSystem::SetCursorState - 005E6290
+CUIQuestInfo::LoadData - 009EF710
+CUIGuildBBS::FormatDate - 00923C70
+CUIToolTip::CUIToolTip - 00A597A0
+CUIToolTip::SetToolTip_Equip - 00A8ED80
+CUIWorldSelect::MakeAdvice - 0069D230
+?Notice@CLoginUtilDlg@@SAXJPAV?$ZRef@VCDialog@@@@@Z (CLoginUtilDlg::Notice) - 00687880
+?YesNo2@CLoginUtilDlg@@SAHJ@Z (CLoginUtilDlg::YesNo2) - 006875F0
+?YesNo3@CLoginUtilDlg@@SAHJ@Z (CLoginUtilDlg::YesNo3) - 00687720
+?Decode@CMovePath@@QAEXAAVCInPacket@@H@Z (CMovePath::Decode) - 0071D7E0
+?OnMovePacket@CMovePath@@QAEXAAVCInPacket@@H@Z (CMovePath::OnMovePacket) - 0071E340
+COutPacket::COutPacket - 0074C220
+COutPacket::MakeBufferList - 0074C300
+CUserLocal::DoActiveSkill - 0x00B6B450
+?IsWildhunterJaguarVehicle@SecondaryStat@@QBEHXZ - 0x00552910
+CUserLocal::UseFuncKeyMapped - 0x00B577C0
+get_update_time - 0x00A66490
+CUserLocal::Jump - 0x00B3DB90
+CUIStatusBar::Draw - 0x00A4ECD0
+CUIStatusBar::SetNumberValue - 0x00A478C0
+CUIStatusBar::CQuickSlot::CompareValidateFuncKeyMappedInfo - 0x00A43190
+CUIStatusBar::CQuickSlot::Draw - 0x00A4B500
+CUIStatusBar::SetStatusValue - 0x00A45210
+get_next_level_exp - 0x00819D30
+_ZtlSecureFuse_unsignedchar - 0x004A0180
+_ZtlSecureFuselong - 0x004078E0
+
+Ozzy: 
+
+Memory::WriteInt(0x00C04B56 + 1, m_nGameWidth); //fix npc click
+WriteValue(0xC04B56 + 1, 1366); //fix npc click
+008B2306 - Notice background [CSlideNotice__OnCreate]
+
+Swoopsy:
+
+00A9BBE0 //damage cap
+
