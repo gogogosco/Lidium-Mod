@@ -1,12 +1,12 @@
 #pragma once
 
 #define PRINT_FILE_CONSOLE(__FMT__, ...)\
-if (const auto file = mm_template::utils::console::file())\ {
-    \
-    std::fprintf(file, __FMT__, __VA_ARGS__);\
-    std::fflush(file);\
-}\\
-std::printf(__FMT__, __VA_ARGS__)
+if (const auto file = mm_template::utils::console::file()) {
+    
+    std::fprintf(file, __FMT__, __VA_ARGS__);
+    std::fflush(file);
+}
+std::printf(__FMT__, __VA_ARGS__);
 
 #ifdef DEBUG
 #define PRINT_DEBUG(__FMT__, ...)\

@@ -21,6 +21,7 @@
 x64/
 x86/
 build/
+.vscode
 include/lib32-msvc-14.1/
 [Aa][Rr][Mm]/
 [Aa][Rr][Mm]64/
