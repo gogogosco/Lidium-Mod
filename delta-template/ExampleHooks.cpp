@@ -1,10 +1,53 @@
 #include "pch.h"
 #include "ExampleHooks.h"
+#include <cstdint>
 
 // define your hook functions
 
 namespace MapleHooks
 {
+
+    std::uint32_t jmpBack_RenderInvPointer_onFail = 0x00403999;
+    std::uint32_t jmpBack_RenderInvPointer_onOK = 0x0040394E;
+    __declspec(naked) void ASM_FixRenderInvPointer() {
+        __asm {
+            cmp ecx, 0
+            je fail
+            mov esi, ecx
+            and dword ptr[ebp - 04], 00
+            jmp[jmpBack_RenderInvPointer_onOK]
+            fail:
+            jmp[jmpBack_RenderInvPointer_onFail]
+        }
+    }
+
+    DWORD EBPCallAddr = 0;
+    DWORD ErrorUnkReason = 0;
+    char Error[256];
+    __declspec(naked) void ErrorUnk() {
+        __asm {
+            CMP EBP, 0
+            JE FAIL
+            PUSH EBX
+            XOR EBX, EBX
+            MOV EBX, DWORD PTR[EBP + 4]
+            MOV DWORD PTR[EBPCallAddr], EBX
+            MOV EBX, DWORD PTR[ESP + 8]
+            MOV DWORD PTR[ErrorUnkReason], EBX
+            POP EBX
+            JMP START
+            FAIL :
+            RETN 0x4
+                START :
+        }
+        __asm pushad //Start C++ hack here
+        sprintf(Error, "%x occured at address %x, \nMapleStory will continue to run, but you may experince additonal issues.\nIt is recommended that you restart the client.", ErrorUnkReason, EBPCallAddr);
+        MessageBoxA(nullptr, Error, "pcom", MB_OK);
+        __asm popad //End
+        __asm {
+            RETN 4
+        }
+    }
 
 	/// <summary>
 	/// Example regular cdecl function hook

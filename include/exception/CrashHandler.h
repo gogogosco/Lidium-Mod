@@ -1,5 +1,4 @@
 #pragma once
-#include <char_conversion/char_conversion.hpp>
 #include <Shlwapi.h>
 #include <ImageHlp.h>
 #include <PsApi.h>
@@ -7,21 +6,7 @@
 
 #pragma comment(lib, "DbgHelp.lib")
 
-
-
 #define LOG(...) fwprintf(sgLogFile, __VA_ARGS__)
-
-/*
-std::string GetCurrentTimeForFileName()
-{
-	auto time = std::time(nullptr);
-	std::stringstream ss;
-	ss << std::put_time(std::localtime(&time), "%F_%T"); // ISO 8601 without timezone information.
-	auto s = ss.str();
-	std::replace(s.begin(), s.end(), ':', '-');
-	return s;
-}
-*/
 
 char* gen_random(char* s, size_t len)
 {
@@ -38,8 +23,6 @@ char* gen_random(char* s, size_t len)
 	s[len] = 0;
 	return s;
 }
-
-
 
 static void ReadKey(HKEY hKey, const char* ValueName, char* Buffer, DWORD size)
 {
@@ -69,8 +52,6 @@ std::wstring get_win_product_name()
 	return result;
 }
 
-
-
 HMODULE GetThisDllHandle()
 {
 	MEMORY_BASIC_INFORMATION info;
@@ -94,15 +75,12 @@ BOOL ShowThreadStack(HANDLE hThread, CONTEXT* c, FILE* sgLogFile)
 
 	IMAGEHLP_SYMBOL* pSym2 = (IMAGEHLP_SYMBOL*)&pbSym2;
 
-
-	/*
 	if ( ! GetThreadContext( hThread, &c ) )
 	{
-		SetError (NULL, NULL, 0);
-		LOG (("Cannot get thread context%d\n", GetLastError()));
+		LOG(L"Cannot get thread context%d\n");
 		return FALSE;
 	}
-	*/
+	
 	wsprintfW(msglog, L"Handler DLL base address: %08X\n", (unsigned int)GetThisDllHandle()); LOG(msglog);
 	if (!SymInitialize(hProcess, NULL, TRUE))
 	{
@@ -277,35 +255,6 @@ LONG WINAPI OurCrashHandler(EXCEPTION_POINTERS* pExcept)
 
 	else
 	{
-
-		switch (exceptionCode)
-		{
-		case EXCEPTION_ACCESS_VIOLATION: FaultTx = L"ACCESS VIOLATION";		break;
-		case EXCEPTION_DATATYPE_MISALIGNMENT: FaultTx = L"DATATYPE MISALIGNMENT"; break;
-		case EXCEPTION_FLT_DIVIDE_BY_ZERO: FaultTx = L"FLT DIVIDE BY ZERO";	break;
-		case EXCEPTION_ARRAY_BOUNDS_EXCEEDED: FaultTx = L"ARRAY BOUNDS EXCEEDED";	break;
-		case EXCEPTION_FLT_DENORMAL_OPERAND: FaultTx = L"FLT DENORMAL OPERAND";	break;
-		case EXCEPTION_FLT_INEXACT_RESULT: FaultTx = L"FLT INEXACT RESULT";	break;
-		case EXCEPTION_FLT_INVALID_OPERATION: FaultTx = L"FLT INVALID OPERATION";	break;
-		case EXCEPTION_FLT_OVERFLOW: FaultTx = L"FLT OVERFLOW";			break;
-		case EXCEPTION_FLT_STACK_CHECK: FaultTx = L"FLT STACK CHECK";		break;
-		case EXCEPTION_FLT_UNDERFLOW: FaultTx = L"FLT UNDERFLOW";			break;
-		case EXCEPTION_ILLEGAL_INSTRUCTION: FaultTx = L"ILLEGAL INSTRUCTION";	break;
-		case EXCEPTION_IN_PAGE_ERROR: FaultTx = L"IN PAGE ERROR";			break;
-		case EXCEPTION_INT_DIVIDE_BY_ZERO: FaultTx = L"INT DEVIDE BY ZERO";	break;
-		case EXCEPTION_INT_OVERFLOW: FaultTx = L"INT OVERFLOW";			break;
-		case EXCEPTION_INVALID_DISPOSITION: FaultTx = L"INVALID DISPOSITION";	break;
-		case EXCEPTION_NONCONTINUABLE_EXCEPTION:FaultTx = L"NONCONTINUABLE EXCEPTION"; break;
-		case EXCEPTION_PRIV_INSTRUCTION: FaultTx = L"PRIVILEGED INSTRUCTION"; break;
-		case EXCEPTION_SINGLE_STEP: FaultTx = L"SINGLE STEP";			break;
-		case EXCEPTION_STACK_OVERFLOW: FaultTx = L"STACK OVERFLOW";		break;
-		case DBG_CONTROL_C:  FaultTx = L"CONTROL C";		break;
-			//case DBG_PRINTEXCEPTION_C:
-			//case 0x4001000AL: //DBG_PRINTEXCEPTION_WIDE_C
-			//case 0x406D1388: //Thread naming
-			//case 0xE06D7363: //C++ Exceptions
-		default: FaultTx = L"unk";
-		}
 
 		DWORD EIP = pExcept->ContextRecord->Eip;
 		DWORD ESP = pExcept->ContextRecord->Esp;

@@ -9,6 +9,11 @@
 #include <hooker.h>
 #include <memedit.h>
 
+//Force laptops to use GPU
+extern "C"
+__declspec(dllexport) DWORD NvOptimusEnablement = 1;
+extern "C"
+__declspec(dllexport) DWORD AmdPowerXpressRequestHighPerformance = 1;
 
 void init() {
 	::AllocConsole();::SetConsoleTitleA("MapleStory Console");
@@ -17,6 +22,12 @@ void init() {
 	std::freopen("CONIN$", "r", stdin);
 
 	printf("DLL_PROCESS_ATTACH\n");
+	
+	//::AddVectoredExceptionHandler(true, OurCrashHandler);
+	//::SetUnhandledExceptionFilter(OurCrashHandler);
+
+	SetProcessAffinityMask(GetCurrentProcess(), 0); // Set amount of processors to maximum
+	SetPriorityClass(GetCurrentProcess(), REALTIME_PRIORITY_CLASS); // Set priority to realtime
 }
 
 // executed after the client is unpacked
