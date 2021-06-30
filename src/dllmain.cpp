@@ -34,6 +34,7 @@ void init() {
 // executed after the client is unpacked
 VOID MainFunc()
 {
+	int m_nGameWidth = 1366;
 
 	//note - PatchJmpD is for DWORD destinations, PatchJmpP is for pointer destinations
 	printf(__FUNCTION__);
@@ -42,6 +43,9 @@ VOID MainFunc()
 //  Create Legends Button by MiLin
 	WriteValue(0x684BB0 + 1, 9999);
 	PatchJmpRaj(0x684BA9, 0x684BE7);
+
+//	Adjust clickable width by Ozzy
+	WriteValue(0xC04B56 + 1, m_nGameWidth);
 
 	return;
 }
