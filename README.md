@@ -13,4 +13,4 @@ Current IDB: https://drive.google.com/drive/folders/1KHsRtH_jQ1Unf_4BHvmpHzVZWzy
 
 Credits: MinimumDelta, F0, SO, MiLin, Raj (Moozi), Ozzy
 
-Delta-common and Delta-template originally came from https://github.com/MinimumDelta/MapleClientEditTemplate
+Original template by MinimumDelta -  https://github.com/MinimumDelta/MapleClientEditTemplate
