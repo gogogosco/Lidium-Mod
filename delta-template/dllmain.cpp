@@ -8,6 +8,7 @@
 #include <Common.h>
 #include <hooker.h>
 #include <memedit.h>
+#include <timeapi.h>
 
 //Force laptops to use GPU
 extern "C"
