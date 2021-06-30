@@ -1,3 +1,6 @@
+#define _CRT_SECURE_NO_DEPRECATE
+#define _CRT_SECURE_NO_WARNINGS
+
 #include "pch.h"
 #include "ExampleHooks.h"
 #include <cstdint>
@@ -7,8 +10,10 @@
 namespace MapleHooks
 {
 
-    std::uint32_t jmpBack_RenderInvPointer_onFail = 0x00403999;
-    std::uint32_t jmpBack_RenderInvPointer_onOK = 0x0040394E;
+    // Jump back on null pointer error - credits to F0 and whoever updates these addresses
+
+    std::uint32_t jmpBack_RenderInvPointer_onFail = 0x00403999; // needs adjustment
+    std::uint32_t jmpBack_RenderInvPointer_onOK = 0x0040394E; //needs adjustment
     __declspec(naked) void ASM_FixRenderInvPointer() {
         __asm {
             cmp ecx, 0
