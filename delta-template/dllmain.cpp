@@ -34,12 +34,14 @@ void init() {
 // executed after the client is unpacked
 VOID MainFunc()
 {
+
+	//note - PatchJmpD is for DWORD destinations, PatchJmpP is for pointer destinations
 	printf(__FUNCTION__);
 	printf("\n");
 
 //  Create Legends Button by MiLin
 	WriteValue(0x684BB0 + 1, 9999);
-	PatchJmpRaj(0x684BA9, 0x684BE7);
+	PatchJmpD(0x684BA9, 0x684BE7);
 
 	return;
 }
