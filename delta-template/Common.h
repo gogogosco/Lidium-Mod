@@ -1,3 +1,6 @@
+#define _CRT_SECURE_NO_DEPRECATE
+#define _CRT_SECURE_NO_WARNINGS
+
 #pragma once
 
 // Exclude rarely-used stuff from Windows headers

@@ -1,4 +1,8 @@
+#define _CRT_SECURE_NO_DEPRECATE
+#define _CRT_SECURE_NO_WARNINGS
+
 #include "pch.h"
+
 #include "ExampleHooks.h"
 #include <ZXString.h>
 #include <Common.h>
@@ -6,25 +10,37 @@
 #include <memedit.h>
 
 
+void init() {
+	::AllocConsole();::SetConsoleTitleA("MapleStory Console");
+
+	std::freopen("CONOUT$", "w", stdout);
+	std::freopen("CONIN$", "r", stdin);
+
+	printf("DLL_PROCESS_ATTACH\n");
+}
+
 // executed after the client is unpacked
 VOID MainFunc()
 {
-	Log(__FUNCTION__);
+	printf(__FUNCTION__);
+	printf("\n");
 
-	// Create Legends Button by MiLin
-	// WriteValue(0x684BB0 + 1, 9999);
-	// PatchJmpRaj(0x684BA9, 0x684BE7);
+//  Create Legends Button by MiLin
+	WriteValue(0x684BB0 + 1, 9999);
+	PatchJmpRaj(0x684BA9, 0x684BE7);
 
 	return;
 }
 
-// don't edit this region if you are not familiar
+// prolly don't edit this region if youre a noob
 #pragma region EntryThread
 
 // main thread
 VOID MainProc()
 {
-	Log(__FUNCTION__);
+	printf(__FUNCTION__);
+	printf("\n");
+
 	MainFunc();
 }
 
@@ -33,19 +49,19 @@ BOOL APIENTRY DllMain(HMODULE hModule, DWORD ul_reason_for_call, LPVOID lpReserv
 {
 	switch (ul_reason_for_call)
 	{
-		case DLL_PROCESS_ATTACH:
-		{
-		Log("DLL_PROCESS_ATTACH");
+	case DLL_PROCESS_ATTACH:
+	{
+		init();
 		DisableThreadLibraryCalls(hModule);
 		CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)&MainProc, NULL, 0, 0);
 		break;
-		}
-		case DLL_PROCESS_DETACH:
-		{
-		Log("DLL_PROCESS_DETACH");
+	}
+	case DLL_PROCESS_DETACH:
+	{
+		printf("DLL_PROCESS_DETACH");
 		Common::GetInstance()->~Common();
 		break;
-		}
+	}
 	}
 	return TRUE;
 }
