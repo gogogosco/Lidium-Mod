@@ -1,7 +1,3 @@
-THIS IS A CULMINATION OF TWO TEMPLATES.
-
-IT DOES NOT FUNCTION AS IS.
-
 Official Lidium Project: https://github.com/atnight348/Lidium
 
 Lidium Development Server: https://discord.gg/deYbTkckBe
