@@ -14,8 +14,8 @@
 #define x86CALL 0xE8
 #define x86NOP 0x90
 
-extern VOID PatchJmpD(DWORD dwAddress, DWORD dwDest);
-extern VOID PatchJmpP(DWORD dwAddress, PVOID pDestination);
+extern VOID PatchJmpRaj(DWORD dwAddress, DWORD dwDest);
+extern VOID PatchJmp(DWORD dwAddress, PVOID pDestination);
 extern VOID PatchRetZero(DWORD dwAddress);
 extern VOID PatchCall(DWORD dwAddress, PVOID pDestination);
 extern VOID PatchNop(DWORD dwAddress, UINT nCount);

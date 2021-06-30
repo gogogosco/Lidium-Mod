@@ -41,7 +41,7 @@ VOID MainFunc()
 
 //  Create Legends Button by MiLin
 	WriteValue(0x684BB0 + 1, 9999);
-	PatchJmpD(0x684BA9, 0x684BE7);
+	PatchJmpRaj(0x684BA9, 0x684BE7);
 
 	return;
 }
