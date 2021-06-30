@@ -36,7 +36,6 @@ VOID MainFunc()
 {
 	int m_nGameWidth = 1366;
 
-	//note - PatchJmpD is for DWORD destinations, PatchJmpP is for pointer destinations
 	printf(__FUNCTION__);
 	printf("\n");
 
