@@ -9,6 +9,7 @@
 #include <hooker.h>
 #include <memedit.h>
 #include <timeapi.h>
+#include <dllmain.h>
 
 //Force laptops to use GPU
 extern "C"
@@ -34,7 +35,6 @@ void init() {
 // executed after the client is unpacked
 VOID MainFunc()
 {
-	int m_nGameWidth = 1366;
 
 	printf(__FUNCTION__);
 	printf("\n");
@@ -44,7 +44,7 @@ VOID MainFunc()
 	PatchJmpRaj(0x684BA9, 0x684BE7);
 
 //	Adjust clickable width by Ozzy
-	WriteValue(0xC04B56 + 1, m_nGameWidth);
+	WriteValue(0xC04B56 + 1, variables::m_nGameWidth);
 
 	return;
 }
