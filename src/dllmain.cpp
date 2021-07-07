@@ -18,13 +18,11 @@ extern "C"
 __declspec(dllexport) DWORD AmdPowerXpressRequestHighPerformance = 1;
 
 void init() {
-	::AllocConsole();::SetConsoleTitleA("MapleStory Console");
-
-	std::freopen("CONOUT$", "w", stdout);
-	std::freopen("CONIN$", "r", stdin);
-
-	printf("DLL_PROCESS_ATTACH\n");
-	
+	//::AllocConsole();::SetConsoleTitleA("MapleStory Console");
+	// 
+	//std::freopen("CONOUT$", "w", stdout);
+	//std::freopen("CONIN$", "r", stdin);
+	// 
 	//::AddVectoredExceptionHandler(true, OurCrashHandler);
 	//::SetUnhandledExceptionFilter(OurCrashHandler);
 
@@ -35,13 +33,14 @@ void init() {
 // executed after the client is unpacked
 VOID MainFunc()
 {
-
-	printf(__FUNCTION__);
-	printf("\n");
+	//	Allow foreign characters in chat - credits to yeehaw and sonkub
+	std::uint32_t jmpBack = 0x00A5183D;
+	std::uint32_t validCharacter = 0x00A5180F;
+	PatchJmp(validCharacter, jmpBack);
 
 //  Create Legends Button by MiLin
 	WriteValue(0x684BB0 + 1, 9999);
-	PatchJmpRaj(0x684BA9, 0x684BE7);
+	PatchJmp(0x684BA9, 0x684BE7);
 
 //	Adjust clickable width by Ozzy
 	WriteValue(0xC04B56 + 1, variables::m_nGameWidth);
@@ -55,9 +54,6 @@ VOID MainFunc()
 // main thread
 VOID MainProc()
 {
-	printf(__FUNCTION__);
-	printf("\n");
-
 	MainFunc();
 }
 

@@ -7,16 +7,9 @@ VOID PatchRetZero(DWORD dwAddress)
 	*(BYTE*)(dwAddress + 2) = x86RET;
 }
 
-VOID PatchJmp(DWORD dwAddress, PVOID pDestination)
+VOID PatchJmp(DWORD dwAddress, DWORD dwDest)
 {
 	*(BYTE*)(dwAddress + 0) = x86JMP;
-	*(DWORD*)(dwAddress + 1) = relative_address(dwAddress, pDestination);
-}
-
-VOID PatchJmpRaj(DWORD dwAddress, DWORD dwDest)
-{
-
-	*(BYTE*)dwAddress = x86JMP;
 	*(DWORD*)(dwAddress + 1) = relative_address(dwAddress, dwDest);
 }
 
