@@ -33,10 +33,21 @@ void init() {
 // executed after the client is unpacked
 VOID MainFunc()
 {
-	//	Allow foreign characters in chat - credits to yeehaw and sonkub
-	std::uint32_t jmpBack = 0x00A5183D;
-	std::uint32_t validCharacter = 0x00A5180F;
-	PatchJmp(validCharacter, jmpBack);
+	// Allow foreign characters in chat - credits to yeehaw and sonkub
+	// CWndMan::TranslateMessage
+	PatchNop(0x00BEEE6D, 9);
+	// CWndMan::EnableIME
+	PatchNop(0x00BEE769, 2);
+	// IsDBCSLeadByte 1
+	WriteValue(0x0058F990, (char)0xEB);
+	// IsDBCSLeadByte 2
+	WriteValue(0x00A5180F, (char)0xEB);
+	// IsDBCSLeadByte 3
+	WriteValue(0x00AED532, (char)0xEB);
+	// IsDBCSLeadByte 4
+	WriteValue(0x00B3C7E2, (char)0xEB);
+	// IsDBCSLeadByte 5
+	WriteValue(0x00C3CAF8, (char)0xEB);
 
 //  Create Legends Button by MiLin
 	WriteValue(0x684BB0 + 1, 9999);
