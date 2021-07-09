@@ -88,7 +88,7 @@ LONG WINAPI MapleCrashHandler(EXCEPTION_POINTERS* pExcept)
 			//case 0x4001000AL: //DBG_PRINTEXCEPTION_WIDE_C
 			//case 0x406D1388: //Thread naming
 			//case 0xE06D7363: //C++ Exceptions
-		default: FaultTx = "unk";
+		default: FaultTx = "UNKNOWN";
 		}
 
 		DWORD EIP = pExcept->ContextRecord->Eip;
@@ -103,10 +103,22 @@ LONG WINAPI MapleCrashHandler(EXCEPTION_POINTERS* pExcept)
 		DWORD CurrentMem = pmc.WorkingSetSize / 1048576;
 		DWORD TotalMem = MS.dwTotalPhys / 1048576;
 
+		wchar_t message[4096];
+
 		std::wstring stemp = s2ws(FaultTx);
 		LPCWSTR result = stemp.c_str();
 
-		MessageBoxW(0, L"MapleStory has crashed. Press Ok to continue.", result, MB_OK);
+		wsprintfW(message, L"An error occurred during execution. The problem description for the occurring issue has been provided here.\nThe game has crashed on: \nAddress : %X\nCode : %X\nWin32 : %X\nCurrent Mem : %d\nTotal Mem: %d\nWhen: %d/%d/%d @ %02d:%02d:%02d.%d\nEAX=%08X  EBX=%08X  ECX=%08X\nEDX=%08X  EBP=%08X  ESI=%08X\nEDI=%08X  ESP=%08X  EIP=%08X\nSorry for the inconvenience. Please show this message to an administator so that it may be referenced during bug resolution.\n\nPress OK to return to the exit the application.\nYou will be logged off from the game.\n",
+			pExcept->ExceptionRecord->ExceptionAddress,
+			pExcept->ExceptionRecord->ExceptionCode,
+			GetLastError(),
+			CurrentMem, TotalMem,
+			LocalTime.wDay, LocalTime.wMonth, LocalTime.wYear,
+			LocalTime.wHour, LocalTime.wMinute, LocalTime.wSecond, LocalTime.wMilliseconds,
+			EAX, EBX, ECX, EDX, EBP, ESI, EDI, ESP, EIP);
+
+
+		MessageBoxW(0, message, result, MB_OK);
 
 		return EXCEPTION_CONTINUE_SEARCH;
 	}
