@@ -4,15 +4,12 @@
 #include <PsApi.h>
 
 #pragma comment(lib, "DbgHelp.lib")
-
-#define LOG(...) fwprintf(sgLogFile, __VA_ARGS__)
-
 	
 LONG WINAPI MapleCrashHandler(EXCEPTION_POINTERS* pExcept)
 {
 	const DWORD exceptionCode = pExcept->ExceptionRecord->ExceptionCode;
 	//const PVOID exceptionAddress = pExcept->ExceptionRecord->ExceptionAddress;
-	wchar_t* FaultTx;
+	std::string FaultTx;
 
 	PROCESS_MEMORY_COUNTERS pmc;
 	MEMORYSTATUS	MS;
@@ -24,9 +21,6 @@ LONG WINAPI MapleCrashHandler(EXCEPTION_POINTERS* pExcept)
 
 	SYSTEM_INFO info;
 	GetSystemInfo(&info);
-
-	//if (pExcept->ExceptionRecord->ExceptionCode == EXCEPTION_BREAKPOINT)
-	//return EXCEPTION_CONTINUE_SEARCH;
 
 	if (exceptionCode & APPLICATION_ERROR_MASK) //Ingore custom SEH error codes, if any. (?)
 	{
@@ -56,6 +50,34 @@ LONG WINAPI MapleCrashHandler(EXCEPTION_POINTERS* pExcept)
 
 	else
 	{
+		switch (exceptionCode)
+		{
+		case EXCEPTION_ACCESS_VIOLATION: FaultTx = "ACCESS VIOLATION";		break;
+		case EXCEPTION_DATATYPE_MISALIGNMENT: FaultTx = "DATATYPE MISALIGNMENT"; break;
+		case EXCEPTION_FLT_DIVIDE_BY_ZERO: FaultTx = "FLT DIVIDE BY ZERO";	break;
+		case EXCEPTION_ARRAY_BOUNDS_EXCEEDED: FaultTx = "ARRAY BOUNDS EXCEEDED";	break;
+		case EXCEPTION_FLT_DENORMAL_OPERAND: FaultTx = "FLT DENORMAL OPERAND";	break;
+		case EXCEPTION_FLT_INEXACT_RESULT: FaultTx = "FLT INEXACT RESULT";	break;
+		case EXCEPTION_FLT_INVALID_OPERATION: FaultTx = "FLT INVALID OPERATION";	break;
+		case EXCEPTION_FLT_OVERFLOW: FaultTx = "FLT OVERFLOW";			break;
+		case EXCEPTION_FLT_STACK_CHECK: FaultTx = "FLT STACK CHECK";		break;
+		case EXCEPTION_FLT_UNDERFLOW: FaultTx = "FLT UNDERFLOW";			break;
+		case EXCEPTION_ILLEGAL_INSTRUCTION: FaultTx = "ILLEGAL INSTRUCTION";	break;
+		case EXCEPTION_IN_PAGE_ERROR: FaultTx = "IN PAGE ERROR";			break;
+		case EXCEPTION_INT_DIVIDE_BY_ZERO: FaultTx = "INT DEVIDE BY ZERO";	break;
+		case EXCEPTION_INT_OVERFLOW: FaultTx = "INT OVERFLOW";			break;
+		case EXCEPTION_INVALID_DISPOSITION: FaultTx = "INVALID DISPOSITION";	break;
+		case EXCEPTION_NONCONTINUABLE_EXCEPTION:FaultTx = "NONCONTINUABLE EXCEPTION"; break;
+		case EXCEPTION_PRIV_INSTRUCTION: FaultTx = "PRIVILEGED INSTRUCTION"; break;
+		case EXCEPTION_SINGLE_STEP: FaultTx = "SINGLE STEP";			break;
+		case EXCEPTION_STACK_OVERFLOW: FaultTx = "STACK OVERFLOW";		break;
+		case DBG_CONTROL_C:  FaultTx = "CONTROL C";		break;
+			//case DBG_PRINTEXCEPTION_C:
+			//case 0x4001000AL: //DBG_PRINTEXCEPTION_WIDE_C
+			//case 0x406D1388: //Thread naming
+			//case 0xE06D7363: //C++ Exceptions
+		default: FaultTx = "unk";
+		}
 
 		DWORD EIP = pExcept->ContextRecord->Eip;
 		DWORD ESP = pExcept->ContextRecord->Esp;
@@ -68,9 +90,17 @@ LONG WINAPI MapleCrashHandler(EXCEPTION_POINTERS* pExcept)
 		DWORD EDI = pExcept->ContextRecord->Edi;
 		DWORD CurrentMem = pmc.WorkingSetSize / 1048576;
 		DWORD TotalMem = MS.dwTotalPhys / 1048576;
-		CHAR GetCompManu[128];
 
 		wchar_t message[4096];
+		wsprintfW(message, L"An error occurred during execution. The problem description for the occurring issue has been provided here.\nDNF.exe has crashed on: \nAddress : %X\nCode : %X\nWin32 : %X\nReason :%-24s\nCurrent Mem : %d\nTotal Mem: %d\nOperating System :%ws \n%s\nWhen: %d/%d/%d @ %02d:%02d:%02d.%d\nEAX=%08X  EBX=%08X  ECX=%08X\nEDX=%08X  EBP=%08X  ESI=%08X\nEDI=%08X  ESP=%08X  EIP=%08X\nSorry for the inconvenience. Please show this message to an administator.\nso that it may be referenced during bug resolution.\n\n\nA log file will also be written in the game's directory after this message closes, Please include the .log files to the Administrators as well. \nPress OK to return to the exit the application.\nYou will be logged off from the game.\n",
+			pExcept->ExceptionRecord->ExceptionAddress,
+			pExcept->ExceptionRecord->ExceptionCode,
+			GetLastError(),
+			FaultTx,
+			CurrentMem, TotalMem,
+			LocalTime.wDay, LocalTime.wMonth, LocalTime.wYear,
+			LocalTime.wHour, LocalTime.wMinute, LocalTime.wSecond, LocalTime.wMilliseconds,
+			EAX, EBX, ECX, EDX, EBP, ESI, EDI, ESP, EIP);
 
 		MessageBoxW(0, message, L"MapleStory has crashed.", MB_OK);
 
