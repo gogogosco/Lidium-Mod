@@ -5,6 +5,18 @@
 
 #pragma comment(lib, "DbgHelp.lib")
 	
+std::wstring s2ws(const std::string& s)
+{
+	int len;
+	int slength = (int)s.length() + 1;
+	len = MultiByteToWideChar(CP_ACP, 0, s.c_str(), slength, 0, 0);
+	wchar_t* buf = new wchar_t[len];
+	MultiByteToWideChar(CP_ACP, 0, s.c_str(), slength, buf, len);
+	std::wstring r(buf);
+	delete[] buf;
+	return r;
+}
+
 LONG WINAPI MapleCrashHandler(EXCEPTION_POINTERS* pExcept)
 {
 	const DWORD exceptionCode = pExcept->ExceptionRecord->ExceptionCode;
@@ -91,18 +103,10 @@ LONG WINAPI MapleCrashHandler(EXCEPTION_POINTERS* pExcept)
 		DWORD CurrentMem = pmc.WorkingSetSize / 1048576;
 		DWORD TotalMem = MS.dwTotalPhys / 1048576;
 
-		wchar_t message[4096];
-		wsprintfW(message, L"An error occurred during execution. The problem description for the occurring issue has been provided here.\nDNF.exe has crashed on: \nAddress : %X\nCode : %X\nWin32 : %X\nReason :%-24s\nCurrent Mem : %d\nTotal Mem: %d\nOperating System :%ws \n%s\nWhen: %d/%d/%d @ %02d:%02d:%02d.%d\nEAX=%08X  EBX=%08X  ECX=%08X\nEDX=%08X  EBP=%08X  ESI=%08X\nEDI=%08X  ESP=%08X  EIP=%08X\nSorry for the inconvenience. Please show this message to an administator.\nso that it may be referenced during bug resolution.\n\n\nA log file will also be written in the game's directory after this message closes, Please include the .log files to the Administrators as well. \nPress OK to return to the exit the application.\nYou will be logged off from the game.\n",
-			pExcept->ExceptionRecord->ExceptionAddress,
-			pExcept->ExceptionRecord->ExceptionCode,
-			GetLastError(),
-			FaultTx,
-			CurrentMem, TotalMem,
-			LocalTime.wDay, LocalTime.wMonth, LocalTime.wYear,
-			LocalTime.wHour, LocalTime.wMinute, LocalTime.wSecond, LocalTime.wMilliseconds,
-			EAX, EBX, ECX, EDX, EBP, ESI, EDI, ESP, EIP);
+		std::wstring stemp = s2ws(FaultTx);
+		LPCWSTR result = stemp.c_str();
 
-		MessageBoxW(0, message, L"MapleStory has crashed.", MB_OK);
+		MessageBoxW(0, L"MapleStory has crashed. Press Ok to continue.", result, MB_OK);
 
 		return EXCEPTION_CONTINUE_SEARCH;
 	}

@@ -18,11 +18,11 @@ extern "C"
 __declspec(dllexport) DWORD AmdPowerXpressRequestHighPerformance = 1;
 
 void init() {
-	//::AllocConsole();::SetConsoleTitleA("MapleStory Console");
-	// 
-	//std::freopen("CONOUT$", "w", stdout);
-	//std::freopen("CONIN$", "r", stdin);
-	// 
+	::AllocConsole();::SetConsoleTitleA("MapleStory Console");
+	 
+	std::freopen("CONOUT$", "w", stdout);
+	std::freopen("CONIN$", "r", stdin);
+	 
 	::AddVectoredExceptionHandler(true, MapleCrashHandler);
 	::SetUnhandledExceptionFilter(MapleCrashHandler);
 
