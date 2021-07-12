@@ -3,7 +3,7 @@
 
 #include "pch.h"
 
-//#include "MapleHooks.h"
+#include "MapleHooks.h"
 #include <ZXString.h>
 #include <Common.h>
 #include <hooker.h>
@@ -17,11 +17,158 @@ __declspec(dllexport) DWORD NvOptimusEnablement = 1;
 extern "C"
 __declspec(dllexport) DWORD AmdPowerXpressRequestHighPerformance = 1;
 
+#include "pch.h"
+
+static int CuserLocal__DoActiveSkill = 0x00B6B450;
+static int Jump_Ret = 0x00B584A1;
+
+int __cdecl is_resistance_job(int a1)
+{
+    return a1 / 1000 == 3;
+}
+
+int __cdecl is_dual_job(int a1)
+{
+    return a1 / 10 == 43;
+}
+
+int __cdecl is_night_lord(int a1)
+{
+    return a1 / 10 == 41;
+}
+
+int __cdecl is_shadower(int a1)
+{
+    return a1 / 10 == 42;
+}
+
+int __cdecl is_night_walker(int a1)
+{
+    return a1 / 100 == 14;
+}
+
+int __cdecl is_dawn_warrior(int a1)
+{
+    return a1 / 100 == 11;
+}
+
+int __cdecl is_aran(int a1)
+{
+    return a1 / 100 == 11;
+}
+
+//Enable Double Jump by MiLin
+void __declspec(naked) EnableDoubleJump()
+{
+    __asm
+    {
+        jnz    JAGUAR_JUMP
+        jz     CHECK_IF_DB
+        jmp    Jump_Ret
+
+        JAGUAR_JUMP :
+
+        push    0
+            push    0
+            push    0
+            push    0
+            push    0
+            push[33001002]
+            mov     ecx, esi
+            call    CuserLocal__DoActiveSkill
+
+            CHECK_IF_DB :
+
+        mov     edx, [esi]
+            mov     eax, [edx + 88]
+            mov     ecx, esi
+            call    eax
+            push    eax
+            call    is_dual_job
+            add     esp, 4
+            test    eax, eax
+            jz      CHECK_IF_NL
+            push    0
+            push    0
+            push    0
+            push    0
+            push    0
+            push[4321003]
+            mov     ecx, esi
+            call    CuserLocal__DoActiveSkill
+
+            CHECK_IF_NL :
+
+        mov     edx, [esi]
+            mov     eax, [edx + 88]
+            mov     ecx, esi
+            call    eax
+            push    eax
+            call    is_night_lord
+            add     esp, 4
+            test    eax, eax
+            jz      CHECK_IF_SD
+            push    0
+            push    0
+            push    0
+            push    0
+            push    0
+            push[4111006]
+            mov     ecx, esi
+            call    CuserLocal__DoActiveSkill
+
+            CHECK_IF_SD :
+
+        mov     edx, [esi]
+            mov     eax, [edx + 88]
+            mov     ecx, esi
+            call    eax
+            push    eax
+            call    is_shadower
+            add     esp, 4
+            test    eax, eax
+            jz      CHECK_IF_NW
+            push    0
+            push    0
+            push    0
+            push    0
+            push    0
+            push[4211009]
+            mov     ecx, esi
+            call    CuserLocal__DoActiveSkill
+
+            CHECK_IF_NW :
+
+        mov     edx, [esi]
+            mov     eax, [edx + 88]
+            mov     ecx, esi
+            call    eax
+            push    eax
+            call    is_night_walker
+            add     esp, 4
+            test    eax, eax
+            jz      DB_JUMP
+            push    0
+            push    0
+            push    0
+            push    0
+            push    0
+            push[14101004]
+            mov     ecx, esi
+            call    CuserLocal__DoActiveSkill
+            jmp     Jump_Ret
+
+            DB_JUMP :
+        jmp    Jump_Ret
+    }
+}
+
+
 void init() {
-	//::AllocConsole();::SetConsoleTitleA("MapleStory Console");
+	::AllocConsole();::SetConsoleTitleA("MapleStory Console");
 	 
-	//std::freopen("CONOUT$", "w", stdout);
-	//std::freopen("CONIN$", "r", stdin);
+	std::freopen("CONOUT$", "w", stdout);
+	std::freopen("CONIN$", "r", stdin);
 	 
 	::AddVectoredExceptionHandler(true, MapleCrashHandler);
 	::SetUnhandledExceptionFilter(MapleCrashHandler);
@@ -33,7 +180,15 @@ void init() {
 // executed after the client is unpacked
 VOID MainFunc()
 {
+	#define relative_address(frm, to) (int)(((int)to - (int)frm) - 5)
+	#define CUserLocal__UseFuncKeyMapped_Press_Jump 0x00B58326
+
 	int m_nGameWidth = 1366;
+	
+    //Enable Double Jump by MiLin
+	//*(unsigned char*)CUserLocal__UseFuncKeyMapped_Press_Jump = 0xE9;
+	//*(unsigned long*)(CUserLocal__UseFuncKeyMapped_Press_Jump + 1) = relative_address(CUserLocal__UseFuncKeyMapped_Press_Jump, EnableDoubleJump);
+
 	// Allow foreign characters in chat - credits to yeehaw and sonkub
 	// CWndMan::TranslateMessage
 	// PatchNop(0x00BEEE6D, 9);
