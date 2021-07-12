@@ -5,13 +5,11 @@
 #include "MapleHooks.h"
 #include <cstdint>
 #include <stdio.h>
-#include <MapleFix.h>
 
 // define your hook functions
 
 namespace MapleHooks
 {
-//	void MapleFix::ASM_FixRenderInvPointer();
 
 	void __cdecl ExampleCDecl_Hook(void* pArg1, int nArg2)
 	{
