@@ -10,6 +10,8 @@
 #include <memedit.h>
 #include <timeapi.h>
 #include <exception/CrashHandler.h>
+#include "polyhook2/CapstoneDisassembler.hpp"
+#include "polyhook2/Detour/x86Detour.hpp"
 
 //Force laptops to use GPU
 extern "C"
@@ -184,8 +186,8 @@ VOID MainFunc()
 	int m_nGameWidth = 1366;
 	
     //Enable Double Jump by MiLin
-	//*(unsigned char*)CUserLocal__UseFuncKeyMapped_Press_Jump = 0xE9;
-	//*(unsigned long*)(CUserLocal__UseFuncKeyMapped_Press_Jump + 1) = relative_address(CUserLocal__UseFuncKeyMapped_Press_Jump, EnableDoubleJump);
+	*(unsigned char*)CUserLocal__UseFuncKeyMapped_Press_Jump = 0xE9;
+	*(unsigned long*)(CUserLocal__UseFuncKeyMapped_Press_Jump + 1) = relative_address(CUserLocal__UseFuncKeyMapped_Press_Jump, EnableDoubleJump);
 
 	// Allow foreign characters in chat - credits to yeehaw and sonkub
 	// CWndMan::TranslateMessage
