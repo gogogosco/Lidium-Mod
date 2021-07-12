@@ -18,11 +18,10 @@ __declspec(dllexport) DWORD AmdPowerXpressRequestHighPerformance = 1;
 
 static int CuserLocal__DoActiveSkill = 0x00B6B450;
 static int Jump_Ret = 0x00B584A1;
+static int jmpBack_RenderInvPointer_onFail = 0x00403999; // needs adjustment
+static int jmpBack_RenderInvPointer_onOK = 0x0040394E; //needs adjustment
 
-// Jump back on null pointer error - credits to F0 and whoever updates these addresses
-
-std::uint32_t jmpBack_RenderInvPointer_onFail = 0x00403999; // needs adjustment
-std::uint32_t jmpBack_RenderInvPointer_onOK = 0x0040394E; //needs adjustment
+// Jump back on null pointer error - credits to F0
 
 __declspec(naked) void ASM_FixRenderInvPointer() {
     __asm {
@@ -232,19 +231,19 @@ VOID MainFunc()
 
 	// Allow foreign characters in chat - credits to yeehaw and sonkub
 	// CWndMan::TranslateMessage
-	// PatchNop(0x00BEEE6D, 9);
+	 PatchNop(0x00BEEE6D, 9);
 	// CWndMan::EnableIME
-	// PatchNop(0x00BEE769, 2);
+	 PatchNop(0x00BEE769, 2);
 	// IsDBCSLeadByte 1
-	// WriteValue(0x0058F990, (char)0xEB);
+	 WriteValue(0x0058F990, (char)0xEB);
 	// IsDBCSLeadByte 2
-	// WriteValue(0x00A5180F, (char)0xEB);
+	 WriteValue(0x00A5180F, (char)0xEB);
 	// IsDBCSLeadByte 3
-	// WriteValue(0x00AED532, (char)0xEB);
+	 WriteValue(0x00AED532, (char)0xEB);
 	// IsDBCSLeadByte 4
-	// WriteValue(0x00B3C7E2, (char)0xEB);
+	 WriteValue(0x00B3C7E2, (char)0xEB);
 	// IsDBCSLeadByte 5
-	// WriteValue(0x00C3CAF8, (char)0xEB);
+	 WriteValue(0x00C3CAF8, (char)0xEB);
 
 //  Create Legends Button by MiLin
 	WriteValue(0x684BB0 + 1, 9999);
