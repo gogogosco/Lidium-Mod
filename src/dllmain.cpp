@@ -16,13 +16,20 @@ __declspec(dllexport) DWORD NvOptimusEnablement = 1;
 extern "C"
 __declspec(dllexport) DWORD AmdPowerXpressRequestHighPerformance = 1;
 
+#define relative_address(frm, to) (int)(((int)to - (int)frm) - 5)
+#define CUserLocal__UseFuncKeyMapped_Press_Jump 0x00B58326
+
 static int CuserLocal__DoActiveSkill = 0x00B6B450;
 static int Jump_Ret = 0x00B584A1;
-static int jmpBack_RenderInvPointer_onFail = 0x00403999; // needs adjustment
-static int jmpBack_RenderInvPointer_onOK = 0x0040394E; //needs adjustment
+
+//IWzProperty::Getitem
+static int jmpBack_RenderInvPointer_onFail = 0x00404E37;
+static int jmpBack_RenderInvPointer_onOK = 0x00404DCE;
+
+static int m_nGameWidth = 1366;
 
 // Jump back on null pointer error - credits to F0
-
+//
 __declspec(naked) void ASM_FixRenderInvPointer() {
     __asm {
         cmp ecx, 0
@@ -220,16 +227,13 @@ void init() {
 // executed after the client is unpacked
 VOID MainFunc()
 {
-	#define relative_address(frm, to) (int)(((int)to - (int)frm) - 5)
-	#define CUserLocal__UseFuncKeyMapped_Press_Jump 0x00B58326
-
-	int m_nGameWidth = 1366;
 
     //Enable Double Jump by MiLin
 	*(unsigned char*)CUserLocal__UseFuncKeyMapped_Press_Jump = 0xE9;
 	*(unsigned long*)(CUserLocal__UseFuncKeyMapped_Press_Jump + 1) = relative_address(CUserLocal__UseFuncKeyMapped_Press_Jump, EnableDoubleJump);
 
 	// Allow foreign characters in chat - credits to yeehaw and sonkub
+    // 
 	// CWndMan::TranslateMessage
 	 PatchNop(0x00BEEE6D, 9);
 	// CWndMan::EnableIME
