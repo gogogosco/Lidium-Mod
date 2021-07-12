@@ -17,8 +17,6 @@ __declspec(dllexport) DWORD NvOptimusEnablement = 1;
 extern "C"
 __declspec(dllexport) DWORD AmdPowerXpressRequestHighPerformance = 1;
 
-#include "pch.h"
-
 static int CuserLocal__DoActiveSkill = 0x00B6B450;
 static int Jump_Ret = 0x00B584A1;
 
