@@ -30,6 +30,10 @@ static int jmpBack_RenderInvPointer_onOK = 0x00404DCE;
 
 static int m_nGameWidth = 1366;
 
+void testVeh() {
+    MessageBoxA(0, "VEH Hook triggered!", "VEH Hook triggered!", MB_OK);
+}
+
 // Jump back on null pointer error - credits to F0
 // needs adjustment for v111... addresses found
 __declspec(naked) void ASM_FixRenderInvPointer() {
@@ -118,7 +122,7 @@ void __declspec(naked) EnableDoubleJump()
 
         JAGUAR_JUMP :
 
-        push    0
+            push    0
             push    0
             push    0
             push    0
@@ -261,8 +265,8 @@ VOID MainFunc()
 //  Attempt to ignore invalid pointers from WZ. Does not work as of now...
 //  PatchCall(0x00404DC4, ASM_FixRenderInvPointer);
 
-//  Example VEH hook
-//  LeoHook::Hook(OrginFunc, (uintptr_t)HookFunc);
+//  Example VEH hook (OriginFunc, (uintptr_t)HookFunc)
+//  LeoHook::Hook(0x000001, (uintptr_t)testVeh);
 
 	return;
 }
