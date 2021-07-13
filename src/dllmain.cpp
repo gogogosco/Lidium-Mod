@@ -29,7 +29,7 @@ static int jmpBack_RenderInvPointer_onOK = 0x00404DCE;
 static int m_nGameWidth = 1366;
 
 // Jump back on null pointer error - credits to F0
-//
+// needs adjustment for v111... addresses found
 __declspec(naked) void ASM_FixRenderInvPointer() {
     __asm {
         cmp ecx, 0
@@ -255,6 +255,9 @@ VOID MainFunc()
 
 //	Adjust clickable width by Ozzy
 	WriteValue(0xC04B56 + 1, m_nGameWidth);
+
+//  Fix Invalid Pointers from WZ
+//  PatchCall(0x00404DC4, ASM_FixRenderInvPointer);
 
 	return;
 }
