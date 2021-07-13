@@ -8,6 +8,7 @@
 #include <hooker.h>
 #include <memedit.h>
 #include <timeapi.h>
+#include <LeoSpecial.h>
 #include <exception/CrashHandler.h>
 
 //Force laptops to use GPU
@@ -63,7 +64,7 @@ __declspec(naked) void ErrorUnk() {
             START :
     }
     __asm pushad //Start C++ hack here
-    sprintf(Error, "%x occured at address %x, \nMapleStory will continue to run, but you may experince additonal issues.\nIt is recommended that you restart the client.", ErrorUnkReason, EBPCallAddr);
+    sprintf(Error, "%x occured at address %x, \nMapleStory will continue to run, but you may experience additonal issues.\nIt is recommended that you restart the client.", ErrorUnkReason, EBPCallAddr);
     MessageBoxA(nullptr, Error, "pcom", MB_OK);
     __asm popad //End
     __asm {
@@ -259,6 +260,9 @@ VOID MainFunc()
 
 //  Attempt to ignore invalid pointers from WZ. Does not work as of now...
 //  PatchCall(0x00404DC4, ASM_FixRenderInvPointer);
+
+//  Example VEH hook
+//  LeoHook::Hook(OrginFunc, (uintptr_t)HookFunc);
 
 	return;
 }
