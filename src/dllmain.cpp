@@ -18,26 +18,33 @@ extern "C"
 __declspec(dllexport) DWORD AmdPowerXpressRequestHighPerformance = 1;
 
 #define relative_address(frm, to) (int)(((int)to - (int)frm) - 5)
+
+//Maple addresses
 #define CUserLocal__UseFuncKeyMapped_Press_Jump 0x00B58326
+#define IWzProperty__Getitem 0x00404DA0
+#define CUser__OnChat 0x00AED430
 
 //Double Jump
 static int CuserLocal__DoActiveSkill = 0x00B6B450;
 static int Jump_Ret = 0x00B584A1;
 
-//IWzProperty::Getitem
+//IWzProperty__Getitem 
 static int jmpBack_RenderInvPointer_onFail = 0x00404E37;
 static int jmpBack_RenderInvPointer_onOK = 0x00404DCE;
 
+//Game width
 static int m_nGameWidth = 1366;
 
-void testVeh() {
+void TestVeh()
+{
     MessageBoxA(0, "VEH Hook triggered!", "VEH Hook triggered!", MB_OK);
 }
 
 // Jump back on null pointer error - credits to F0
 // needs adjustment for v111... addresses found
 __declspec(naked) void ASM_FixRenderInvPointer() {
-    __asm {
+    __asm 
+    {
         cmp ecx, 0
         je fail
         mov esi, ecx
@@ -52,7 +59,8 @@ DWORD EBPCallAddr = 0;
 DWORD ErrorUnkReason = 0;
 char Error[256];
 __declspec(naked) void ErrorUnk() {
-    __asm {
+    __asm
+    {
         CMP EBP, 0
         JE FAIL
         PUSH EBX
@@ -266,7 +274,7 @@ VOID MainFunc()
 //  PatchCall(0x00404DC4, ASM_FixRenderInvPointer);
 
 //  Example VEH hook (OriginFunc, (uintptr_t)HookFunc)
-//  LeoHook::Hook(0x000001, (uintptr_t)testVeh);
+//  LeoHook::Hook(0x000000, (uintptr_t)TestVeh);
 
 	return;
 }
