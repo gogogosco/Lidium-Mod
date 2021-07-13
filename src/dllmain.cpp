@@ -23,12 +23,13 @@ __declspec(dllexport) DWORD AmdPowerXpressRequestHighPerformance = 1;
 #define CUserLocal__UseFuncKeyMapped_Press_Jump 0x00B58326
 #define IWzProperty__Getitem 0x00404DA0
 #define CUser__OnChat 0x00AED430
+#define CWvsContext__GetCharacterData 0x0042FFE0
 
 //Double Jump
 static int CuserLocal__DoActiveSkill = 0x00B6B450;
 static int Jump_Ret = 0x00B584A1;
 
-//IWzProperty__Getitem 
+//IWzProperty__Getitem
 static int jmpBack_RenderInvPointer_onFail = 0x00404E37;
 static int jmpBack_RenderInvPointer_onOK = 0x00404DCE;
 

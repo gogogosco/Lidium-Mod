@@ -3,6 +3,7 @@
 Me:
 
 IWzProperty::Getitem - 00404DA0
+CWvsContext::GetCharacterData - 0042FFE0
 
 
 SO:
