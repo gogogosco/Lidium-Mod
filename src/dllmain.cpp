@@ -19,6 +19,7 @@ __declspec(dllexport) DWORD AmdPowerXpressRequestHighPerformance = 1;
 #define relative_address(frm, to) (int)(((int)to - (int)frm) - 5)
 #define CUserLocal__UseFuncKeyMapped_Press_Jump 0x00B58326
 
+//Double Jump
 static int CuserLocal__DoActiveSkill = 0x00B6B450;
 static int Jump_Ret = 0x00B584A1;
 
@@ -256,7 +257,7 @@ VOID MainFunc()
 //	Adjust clickable width by Ozzy
 	WriteValue(0xC04B56 + 1, m_nGameWidth);
 
-//  Fix Invalid Pointers from WZ
+//  Attempt to ignore invalid pointers from WZ. Does not work as of now...
 //  PatchCall(0x00404DC4, ASM_FixRenderInvPointer);
 
 	return;
