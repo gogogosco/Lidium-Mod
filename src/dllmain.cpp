@@ -29,6 +29,8 @@ static int CuserLocal__DoActiveSkill = 0x00B6B450;
 static int Jump_Ret = 0x00B584A1;
 
 //IWzProperty__Getitem 
+//static int jmpBack_RenderInvPointer_onFail = 0x00404E37;
+//static int jmpBack_RenderInvPointer_onOK = 0x00404DCE;
 static int jmpBack_RenderInvPointer_onFail = 0x00404E37;
 static int jmpBack_RenderInvPointer_onOK = 0x00404DCE;
 
@@ -45,6 +47,11 @@ void TestVeh()
 __declspec(naked) void ASM_FixRenderInvPointer() {
     __asm 
     {
+        push    0
+        push    0
+        push    0
+        push    0
+        push    0
         cmp ecx, 0
         je fail
         mov esi, ecx
