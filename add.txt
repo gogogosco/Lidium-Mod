@@ -47,8 +47,6 @@ _ZtlSecureFuselong - 0x004078E0
 
 Ozzy: 
 
-Memory::WriteInt(0x00C04B56 + 1, m_nGameWidth); //fix npc click
-WriteValue(0xC04B56 + 1, 1366); //fix npc click
 008B2306 - Notice background [CSlideNotice__OnCreate]
 
 Swoopsy:
