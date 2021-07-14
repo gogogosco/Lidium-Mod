@@ -36,34 +36,10 @@ static int jmpBack_RenderInvPointer_onOK = 0x00404DCE;
 //Game width
 static int m_nGameWidth = 1366;
 
-void TestVeh()
-{
-    MessageBoxA(0, "VEH Hook triggered!", "VEH Hook triggered!", MB_OK);
-}
-
-// Jump back on null pointer error - credits to F0
-// needs adjustment for v111... addresses found
-__declspec(naked) void ASM_FixRenderInvPointer() {
-    __asm 
-    {
-        push    0
-        push    0
-        push    0
-        push    0
-        push    0
-        cmp ecx, 0
-        je fail
-        mov esi, ecx
-        and dword ptr[ebp - 04], 00
-        jmp[jmpBack_RenderInvPointer_onOK]
-        fail:
-        jmp[jmpBack_RenderInvPointer_onFail]
-    }
-}
-
 DWORD EBPCallAddr = 0;
 DWORD ErrorUnkReason = 0;
 char Error[256];
+
 __declspec(naked) void ErrorUnk() {
     __asm
     {
@@ -88,6 +64,11 @@ __declspec(naked) void ErrorUnk() {
     __asm {
         RETN 4
     }
+}
+
+void TestVeh()
+{
+    MessageBoxA(0, "VEH Hook triggered!", "VEH Hook triggered!", MB_OK);
 }
 
 int __cdecl is_resistance_job(int a1)
@@ -232,10 +213,10 @@ void __declspec(naked) EnableDoubleJump()
 }
 
 void init() {
-	::AllocConsole();::SetConsoleTitleA("MapleStory Console");
+	//::AllocConsole();::SetConsoleTitleA("MapleStory Console");
 	 
-	std::freopen("CONOUT$", "w", stdout);
-	std::freopen("CONIN$", "r", stdin);
+	//std::freopen("CONOUT$", "w", stdout);
+	//std::freopen("CONIN$", "r", stdin);
 	 
 	::AddVectoredExceptionHandler(true, MapleCrashHandler);
 	::SetUnhandledExceptionFilter(MapleCrashHandler);
@@ -275,9 +256,6 @@ VOID MainFunc()
 
 //	Adjust clickable width by Ozzy
 	WriteValue(0xC04B56 + 1, m_nGameWidth);
-
-//  Attempt to ignore invalid pointers from WZ. Does not work as of now...
-//  PatchCall(0x00404DC4, ASM_FixRenderInvPointer);
 
 //  Example VEH hook (OriginFunc, (uintptr_t)HookFunc)
 //  LeoHook::Hook(0x000000, (uintptr_t)TestVeh);
