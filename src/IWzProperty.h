@@ -4,21 +4,6 @@
 
 struct IWzArchive;
 
-struct /*VFT*/ IWzArchive_vtbl
-{
-	HRESULT(__stdcall* QueryInterface)(IUnknown*, const _GUID*, void**);
-	unsigned int(__stdcall* AddRef)(IUnknown*);
-	unsigned int(__stdcall* Release)(IUnknown*);
-	HRESULT(__stdcall* get_loading)(IWzArchive*, int*);
-	HRESULT(__stdcall* raw_Read)(IWzArchive*, unsigned __int8*, unsigned int, unsigned int*);
-	HRESULT(__stdcall* raw_Write)(IWzArchive*, unsigned __int8*, unsigned int, unsigned int*);
-	HRESULT(__stdcall* get_absoluteUOL)(IWzArchive*, wchar_t**);
-	HRESULT(__stdcall* put_absoluteUOL)(IWzArchive*, wchar_t*);
-	HRESULT(__stdcall* get_position)(IWzArchive*, unsigned int*);
-	HRESULT(__stdcall* get_context)(IWzArchive*, tagVARIANT*);
-	HRESULT(__stdcall* put_context)(IWzArchive*, tagVARIANT);
-};
-
 //we should implement it correctly with the proper inheritance (inherit IUnknown and IWzSerialize)
 //but this should have the correct offsets
 //credits to shavit
@@ -42,4 +27,17 @@ public:
 	virtual HRESULT raw_Add(wchar_t*, tagVARIANT, tagVARIANT) = 0;
 	virtual HRESULT raw_Remove(wchar_t*) = 0;
 	virtual HRESULT raw_Import(wchar_t*) = 0;
+
+	// IWzArchive
+	virtual HRESULT QueryInterface(IUnknown*, const _GUID*, void**) = 0;
+	virtual unsigned int AddRef(IUnknown*) = 0;
+	virtual unsigned int Release(IUnknown*) = 0;
+	virtual HRESULT get_loading(IWzArchive*, int*) = 0;
+	virtual HRESULT raw_Read(IWzArchive*, unsigned __int8*, unsigned int, unsigned int*) = 0;
+	virtual HRESULT raw_Write(IWzArchive*, unsigned __int8*, unsigned int, unsigned int*) = 0;
+	virtual HRESULT get_absoluteUOL(IWzArchive*, wchar_t**) = 0;
+	virtual HRESULT put_absoluteUOL(IWzArchive*, wchar_t*) = 0;
+	virtual HRESULT get_position(IWzArchive*, unsigned int*) = 0;
+	virtual HRESULT get_context(IWzArchive*, tagVARIANT*) = 0;
+	virtual HRESULT put_context(IWzArchive*, tagVARIANT) = 0;
 };
