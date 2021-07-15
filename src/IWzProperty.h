@@ -2,8 +2,7 @@
 #include "pch.h"
 #include <OAIdl.h>
 
-typedef int IWzArchive;
-
+struct IWzArchive;
 
 //credits to shavit
 class IWzProperty
