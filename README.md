@@ -7,6 +7,6 @@ Current localhost: https://www.mediafire.com/file/b1nm3n4ixuqpfzr/MapleStory_v11
 Current IDB: https://drive.google.com/drive/folders/1KHsRtH_jQ1Unf_4BHvmpHzVZWzyzbSTW
 
 
-Credits: MinimumDelta, F0, SO, MiLin, Raj (Moozi), Ozzy, yeehaw, sonkub
+Credits: MinimumDelta, F0, SO, MiLin, Raj (Moozi), Ozzy, yeehaw, sonkub, shavit
 
 Original template by MinimumDelta -  https://github.com/MinimumDelta/MapleClientEditTemplate
