@@ -4,6 +4,21 @@
 
 struct IWzArchive;
 
+struct /*VFT*/ IWzArchive_vtbl
+{
+	HRESULT(__stdcall* QueryInterface)(IUnknown*, const _GUID*, void**);
+	unsigned int(__stdcall* AddRef)(IUnknown*);
+	unsigned int(__stdcall* Release)(IUnknown*);
+	HRESULT(__stdcall* get_loading)(IWzArchive*, int*);
+	HRESULT(__stdcall* raw_Read)(IWzArchive*, unsigned __int8*, unsigned int, unsigned int*);
+	HRESULT(__stdcall* raw_Write)(IWzArchive*, unsigned __int8*, unsigned int, unsigned int*);
+	HRESULT(__stdcall* get_absoluteUOL)(IWzArchive*, wchar_t**);
+	HRESULT(__stdcall* put_absoluteUOL)(IWzArchive*, wchar_t*);
+	HRESULT(__stdcall* get_position)(IWzArchive*, unsigned int*);
+	HRESULT(__stdcall* get_context)(IWzArchive*, tagVARIANT*);
+	HRESULT(__stdcall* put_context)(IWzArchive*, tagVARIANT);
+};
+
 //we should implement it correctly with the proper inheritance (inherit IUnknown and IWzSerialize)
 //but this should have the correct offsets
 //credits to shavit
