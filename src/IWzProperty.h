@@ -4,6 +4,8 @@
 
 struct IWzArchive;
 
+//we should implement it correctly with the proper inheritance (inherit IUnknown and IWzSerialize)
+//but this should have the correct offsets
 //credits to shavit
 class IWzProperty
 {
