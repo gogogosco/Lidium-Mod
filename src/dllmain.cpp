@@ -71,6 +71,7 @@ void TestVeh()
     MessageBoxA(0, "VEH Hook triggered!", "VEH Hook triggered!", MB_OK);
 }
 
+//todo - add missing jobs
 int __cdecl is_resistance_job(int a1)
 {
     return a1 / 1000 == 3;
