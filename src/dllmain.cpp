@@ -10,7 +10,6 @@
 #include <timeapi.h>
 #include <LeoSpecial.h>
 #include <exception/CrashHandler.h>
-
 //Force laptops to use GPU
 extern "C"
 __declspec(dllexport) DWORD NvOptimusEnablement = 1;
@@ -35,6 +34,68 @@ static int jmpBack_RenderInvPointer_onOK = 0x00404DCE;
 
 //Game width
 static int m_nGameWidth = 1366;
+
+//Discord RPC
+std::uint32_t RPC_PlayerName = 0;
+std::uint32_t RPC_GetLevel = 0;
+std::uint32_t RPC_GetMapName = 0;
+std::uint32_t RPC_GetJobID = 600200;
+
+// needs updating for v111 - these are for v83
+DWORD call_GetJobID = 0x008D8298;
+DWORD call_GetLevel = 0x008D8289;
+DWORD jmpBack_MaplePatchGame = 0x008D817D;
+DWORD jmpBack_MapleGetMap = 0x00855E10;
+//
+
+__declspec(naked)void ASM_GameRPCGetInfo()
+{
+    __asm
+    {
+        or dword ptr[ebp - 04], -01 //not really needed but im including it here anyways.
+        ADD ESI, 4  //the playername is 4 bytes over the esi offset.
+        MOV DWORD PTR[RPC_PlayerName], ESI
+        SUB ESI, 4
+        MOV ECX, ESI
+        CALL[call_GetJobID]
+        movsx eax, ax
+        MOV[RPC_GetJobID], EAX
+        PUSH EAX
+        mov ecx, esi
+        CALL[call_GetLevel]
+        mov ecx, [ebp - 0x10]
+        movzx eax, al
+        MOV[RPC_GetLevel], EAX
+        PUSH EAX
+        JMP[jmpBack_MaplePatchGame]
+    }
+}
+
+__declspec(naked)void ASM_GameRPCGetMapInfo()
+{
+    __asm
+    {
+        mov eax, [ebp - 0x10] // char pointer of map name here
+        MOV[RPC_GetMapName], EAX
+        CMP EAX, EBX
+        JMP[jmpBack_MapleGetMap]
+    }
+}
+
+
+std::uint32_t jmpBack_OnExitTitleScreen = 0x005F4557; //needs updating from v83 to v111
+__declspec(naked)void ASM_GameRPCClearRPCOnExit()
+{
+    __asm
+    {
+        MOV DWORD PTR[RPC_PlayerName], 0x0
+        MOV DWORD PTR[RPC_GetLevel], 0x0
+        MOV DWORD PTR[RPC_GetMapName], 0x0
+        MOV DWORD PTR[RPC_GetJobID], 600200
+        PUSH 0x00000B4F // "Ver. %d.%d", Text appear on the top right of the game, when you log off.
+        JMP[jmpBack_OnExitTitleScreen]
+    }
+}
 
 DWORD EBPCallAddr = 0;
 DWORD ErrorUnkReason = 0;
@@ -221,6 +282,8 @@ void init() {
 	 
 	::AddVectoredExceptionHandler(true, MapleCrashHandler);
 	::SetUnhandledExceptionFilter(MapleCrashHandler);
+
+    //drpc::init();
 
 	SetProcessAffinityMask(GetCurrentProcess(), 0); // Set amount of processors to maximum
 	SetPriorityClass(GetCurrentProcess(), REALTIME_PRIORITY_CLASS); // Set priority to realtime
