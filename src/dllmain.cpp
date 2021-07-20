@@ -10,6 +10,8 @@
 #include <timeapi.h>
 #include <LeoSpecial.h>
 #include <exception/CrashHandler.h>
+#include <console.hpp>
+
 //Force laptops to use GPU
 extern "C"
 __declspec(dllexport) DWORD NvOptimusEnablement = 1;
@@ -25,12 +27,12 @@ __declspec(dllexport) DWORD AmdPowerXpressRequestHighPerformance = 1;
 #define CWvsContext__GetCharacterData 0x0042FFE0
 
 //Double Jump
-static int CuserLocal__DoActiveSkill = 0x00B6B450;
-static int Jump_Ret = 0x00B584A1;
+#define CuserLocal__DoActiveSkill 0x00B6B450;
+#define Jump_Ret 0x00B584A1;
 
 //IWzProperty__Getitem
-static int jmpBack_RenderInvPointer_onFail = 0x00404E37;
-static int jmpBack_RenderInvPointer_onOK = 0x00404DCE;
+#define jmpBack_RenderInvPointer_onFail 0x00404E37;
+#define jmpBack_RenderInvPointer_onOK 0x00404DCE;
 
 //Game width
 static int m_nGameWidth = 1366;
@@ -275,10 +277,7 @@ void __declspec(naked) EnableDoubleJump()
 }
 
 void init() {
-	//::AllocConsole();::SetConsoleTitleA("MapleStory Console");
-	 
-	//std::freopen("CONOUT$", "w", stdout);
-	//std::freopen("CONIN$", "r", stdin);
+    console::init();
 	 
 	::AddVectoredExceptionHandler(true, MapleCrashHandler);
 	::SetUnhandledExceptionFilter(MapleCrashHandler);
