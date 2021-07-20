@@ -1,7 +1,5 @@
 #include <utils/console/console.hpp>
 
-namespace mm_template::utils
-{
 	void console::init()
 	{
 		console::file_ = std::fopen("console.log", "wb");
@@ -19,4 +17,4 @@ namespace mm_template::utils
 	}
 
 	::_iobuf* console::file_;
-}
+
