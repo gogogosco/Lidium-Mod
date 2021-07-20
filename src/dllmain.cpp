@@ -43,13 +43,14 @@ std::uint32_t RPC_GetLevel = 0;
 std::uint32_t RPC_GetMapName = 0;
 std::uint32_t RPC_GetJobID = 600200;
 
-// needs updating for v111 - these are for v83
+// v83 - needs updating for v111
 DWORD call_GetJobID = 0x008D8298;
 DWORD call_GetLevel = 0x008D8289;
 DWORD jmpBack_MaplePatchGame = 0x008D817D;
 DWORD jmpBack_MapleGetMap = 0x00855E10;
 //
 
+//v83 - needs updating for v111
 __declspec(naked)void ASM_GameRPCGetInfo()
 {
     __asm
@@ -73,6 +74,7 @@ __declspec(naked)void ASM_GameRPCGetInfo()
     }
 }
 
+//v83 - needs updating for v111
 __declspec(naked)void ASM_GameRPCGetMapInfo()
 {
     __asm
@@ -85,7 +87,8 @@ __declspec(naked)void ASM_GameRPCGetMapInfo()
 }
 
 
-std::uint32_t jmpBack_OnExitTitleScreen = 0x005F4557; //needs updating from v83 to v111
+//v83 - needs updating for v111
+std::uint32_t jmpBack_OnExitTitleScreen = 0x005F4557;
 __declspec(naked)void ASM_GameRPCClearRPCOnExit()
 {
     __asm
