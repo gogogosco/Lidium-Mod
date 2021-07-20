@@ -1,7 +1,4 @@
 #include <console.hpp>
-#include <cstdio>
-#include <consoleapi2.h>
-#include <consoleapi.h>
 
 	void console::init()
 	{

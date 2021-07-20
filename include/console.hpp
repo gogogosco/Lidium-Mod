@@ -1,5 +1,9 @@
 #pragma once
 
+#include <cstdio>
+#include <consoleapi.h>
+#include <consoleapi2.h>
+
 #define PRINT_FILE_CONSOLE(__FMT__, ...)												\
 	if (const auto file = console::file())									\
 	{																					\
