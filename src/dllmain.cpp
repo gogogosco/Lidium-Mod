@@ -280,11 +280,11 @@ void __declspec(naked) EnableDoubleJump()
 }
 
 void init() {
-    console::init();
-	 
-	::AddVectoredExceptionHandler(true, MapleCrashHandler);
-	::SetUnhandledExceptionFilter(MapleCrashHandler);
 
+    ::AddVectoredExceptionHandler(true, MapleCrashHandler);
+    ::SetUnhandledExceptionFilter(MapleCrashHandler);
+
+    console::init();
     //drpc::init();
 
 	SetProcessAffinityMask(GetCurrentProcess(), 0); // Set amount of processors to maximum
