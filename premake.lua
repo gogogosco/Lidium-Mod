@@ -1,6 +1,6 @@
 workspace "Template"
 	location ".\\build\\"
-	startproject "Manual Map"
+	startproject "Lidium-Mod"
 
 	targetdir "%{wks.location}\\bin\\%{cfg.buildcfg}\\"
 	objdir "%{wks.location}\\obj\\%{cfg.buildcfg}\\%{prj.name}\\"
@@ -64,8 +64,8 @@ workspace "Template"
 		symbols "on"
 
 	--Would recommend changing project name and targetname to suit your needs
-	project "Manual Map"
-		targetname "Output_Name"
+	project "Lidium-Mod"
+		targetname "LEN.dll"
 
 		language "c++"
 		kind "consoleapp"
@@ -73,14 +73,3 @@ workspace "Template"
 		
 		--REQUIRED FOR THE MANUAL MAP | COMPILER MAGIC
 		linkoptions "/NXCOMPAT:NO /IGNORE:4254 /DYNAMICBASE:NO /SAFESEH:NO /LARGEADDRESSAWARE /LAST:.main"
-		
-		--Only if you want to change the dll directory of discord_game_sdk.dll or others you may need
-		--//!\\MANDATORY COPY INTO PROPERTIES//!\\--
-		
-			--LINKER > INPUT > DELAY LOADED DLLS
-			
-		--[[
-		
-			discord_game_sdk.dll
-		
-		]]--
