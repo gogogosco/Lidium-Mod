@@ -10,7 +10,6 @@
 #include <timeapi.h>
 #include <LeoSpecial.h>
 #include <exception/CrashHandler.h>
-#include <console.hpp>
 
 //Force laptops to use GPU
 extern "C"
@@ -280,12 +279,11 @@ void __declspec(naked) EnableDoubleJump()
 }
 
 void init() {
+    
+    //drpc::init();
 
     ::AddVectoredExceptionHandler(true, MapleCrashHandler);
     ::SetUnhandledExceptionFilter(MapleCrashHandler);
-
-    console::init();
-    //drpc::init();
 
 	SetProcessAffinityMask(GetCurrentProcess(), 0); // Set amount of processors to maximum
 	SetPriorityClass(GetCurrentProcess(), REALTIME_PRIORITY_CLASS); // Set priority to realtime
