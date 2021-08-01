@@ -21,18 +21,18 @@ __declspec(dllexport) DWORD AmdPowerXpressRequestHighPerformance = 1;
 #define relative_address(frm, to) (int)(((int)to - (int)frm) - 5)
 
 //Maple addresses
-#define CUserLocal__UseFuncKeyMapped_Press_Jump 0x00B58326
-#define IWzProperty__Getitem 0x00404DA0
-#define CUser__OnChat 0x00AED430
-#define CWvsContext__GetCharacterData 0x0042FFE0
+static int CUserLocal__UseFuncKeyMapped_Press_Jump = 0x00B58326;
+static int IWzProperty__Getitem = 0x00404DA0;
+static int CUser__OnChat = 0x00AED430;
+static int CWvsContext__GetCharacterData = 0x0042FFE0;
 
 //Double Jump
-#define CuserLocal__DoActiveSkill 0x00B6B450;
-#define Jump_Ret 0x00B584A1;
+static int CuserLocal__DoActiveSkill = 0x00B6B450;
+static int Jump_Ret = 0x00B584A1;
 
 //IWzProperty__Getitem
-#define jmpBack_RenderInvPointer_onFail 0x00404E37;
-#define jmpBack_RenderInvPointer_onOK 0x00404DCE;
+static int jmpBack_RenderInvPointer_onFail = 0x00404E37;
+static int jmpBack_RenderInvPointer_onOK = 0x00404DCE;
 
 //Game width
 static int m_nGameWidth = 1366;
