@@ -1,5 +1,5 @@
 #pragma once
-#include <discord-lib/discord.h>
+#include <discord/discord.h>
 #include <string>
 
 	class drpc final

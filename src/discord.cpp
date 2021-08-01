@@ -3,7 +3,7 @@
 #include <console.hpp>
 #include <discord.hpp>
 
-#include <discord-lib/discord.h>
+#include <discord/discord.h>
 
 discord::Core* core{};
 discord::Activity activity{};
