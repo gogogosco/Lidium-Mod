@@ -1,12 +1,13 @@
 #define GLEW_STATIC
 
+#include "pch.h"
+
 #include "hacklib/Main.h"
 #include "hacklib/WindowOverlay.h"
 #include <chrono>
 #include <cstdio>
 
 #include <GL/glew.h>
-
 
 #define GLSL_SRC(src) "#version 150 core\n" #src
 
